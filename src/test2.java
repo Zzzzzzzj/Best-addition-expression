@@ -26,24 +26,22 @@ public class test2 {
     private static String math="123456789";
 
     private static void init(int m,int n){
-
         if (m==0)
             v[m][n]=Integer.valueOf(math.substring(0,n));
         //如果加号大于等于数字总数 则设置为无穷
         else if (m>=n)
             v[m][n]=999999999;
+        //如果加号就比数字少1，则就为 1+2+3+4+n
+        else if (m==n-1){
+            int count=0;
+            for (int i=0;i<n;i++){
+                int z=Integer.valueOf(math.substring(i,i+1));
+                count+=z;
+            }
+            v[m][n]=count;
+        }
         else{
             List<Integer> a=new ArrayList();
-            //如果加号就比数字少1，则就为 1+2+3+4+n
-            if (m==n-1){
-                int count=0;
-                for (int i=0;i<n;i++){
-                    int z=Integer.valueOf(math.substring(i,i+1));
-                    count+=z;
-                }
-                v[m][n]=count;
-                return;
-            }
             for (int i=m;i<n-1;i++){
                 if (v[m-1][i]==0){
                     init(m-1,i);
@@ -51,7 +49,6 @@ public class test2 {
                 int num=v[m-1][i]+Integer.valueOf(math.substring(i,n));
                 a.add(num);
             }
-
            v[m][n]=min(a);
         }
 
@@ -64,11 +61,8 @@ public class test2 {
             if (number<min){
                 min=number;
             }
-
         }
-
         return min;
-
     }
 
     public static void main(String[] args){
